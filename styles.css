@@ -143,3 +143,20 @@ input[type="checkbox"]:checked ~ .todo-text {
 input[type="checkbox"] {
     display: none;
 }
+
+@media (max-width: 500px) {
+    html {
+        font-size: 12px;
+    }
+    #add-button {
+        position: unset;
+        width: 100%;
+        margin-top: 10px;
+        padding: 15px;
+        height: auto;
+    }
+    h1 {
+        margin-top: 50px;
+        font-size: 15vw;
+    }
+}
