@@ -2,7 +2,8 @@ const todoForm = document.querySelector("form");
 const todoInput = document.getElementById("todo-input");
 const todoListUL = document.getElementById("todo-list");
 
-let allTodos = [];
+let allTodos = getTodos();
+updateTodoList();
 
 todoForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -15,6 +16,7 @@ function addTodo() {
     if (todoText.length > 0) {
         allTodos.push(todoText);
         updateTodoList();
+        saveTodos();
         todoInput.value = "";
     }
 }
@@ -49,5 +51,26 @@ function createTodoItem(todo, todoIndex) {
                     </svg>
                 </button>
     `
+    const deleteButton = todoLI.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+        deleteTodoItem(todoIndex);
+    })
     return todoLI;
+}
+
+function deleteTodoItem(todoIndex) {
+    allTodos = allTodos.filter((_, i) => i !== todoIndex);
+    saveTodos();
+    updateTodoList();
+}
+
+// Guardado en localStorage
+function saveTodos() {
+    const todosJson = JSON.stringify(allTodos);
+    localStorage.setItem("todos", todosJson);
+}
+
+function getTodos() {
+    const todos = localStorage.getItem("todos") || "[]";
+    return JSON.parse(todos);
 }
