@@ -46,6 +46,9 @@ function createTodoItem(todo, todoIndex) {
                 <label for="${todoId}" class="todo-text">
                     ${todoText}
                 </label>
+                <button class="notify-button">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
                 <button class="delete-button">
                     <i class="fas fa-trash"></i>
                 </button>

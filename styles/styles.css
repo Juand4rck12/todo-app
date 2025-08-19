@@ -96,6 +96,26 @@ form {
     transition: 200ms ease;
 }
 
+.notify-button {
+    padding: 3px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.notify-button i {
+    color: var(--secondary-color);
+    transition: 200ms ease;
+}
+
+.notify-button:hover i {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
 .delete-button {
     padding: 3px;
     background: none;
