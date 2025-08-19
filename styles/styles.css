@@ -106,12 +106,14 @@ form {
     cursor: pointer;
 }
 
-.delete-button:hover svg {
+.delete-button i {
+    color: var(--secondary-color);
     transition: 200ms ease;
 }
 
-.delete-button:hover svg {
-    fill: #ff0033;
+.delete-button:hover i {
+    color: #ff0033;
+    transform: scale(1.2);
 }
 
 .custom-checkbox {
@@ -127,12 +129,16 @@ form {
     cursor: pointer;
 }
 
+input[type="checkbox"] ~ .custom-checkbox i {
+    color: transparent;
+}
+
 input[type="checkbox"]:checked ~ .custom-checkbox {
     background-color: var(--accent-color);
 }
 
-input[type="checkbox"]:checked ~ .custom-checkbox svg {
-    fill: var(--primary-color);
+input[type="checkbox"]:checked ~ .custom-checkbox i {
+    color: var(--primary-color);
 }
 
 input[type="checkbox"]:checked ~ .todo-text {
