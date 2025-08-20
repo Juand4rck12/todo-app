@@ -152,6 +152,10 @@ input[type="datetime-local"] {
     transform: scale(1.2);
 }
 
+.notify-button.active i {
+    color: var(--accent-color);
+}
+
 .delete-button {
     padding: 3px;
     background: none;
@@ -245,7 +249,7 @@ dialog::backdrop {
         font-size: 15vw;
     }
     dialog {
-        width: 320px;
-        max-width: 60%;
+        width: 350px;
+        max-width: 70%;
     }
 }
