@@ -1,6 +1,8 @@
 const todoForm = document.querySelector("form");
+const reminderForm = document.getElementById("reminder-form")
 const todoInput = document.getElementById("todo-input");
 const todoListUL = document.getElementById("todo-list");
+const reminderModal = document.getElementById("reminder-modal");
 
 let allTodos = getTodos();
 updateTodoList();
@@ -8,6 +10,10 @@ updateTodoList();
 todoForm.addEventListener('submit', function(e) {
     e.preventDefault();
     addTodo();
+})
+
+reminderForm.addEventListener('submit', function(e) {
+    e.preventDefault();
 })
 
 function addTodo() {
@@ -56,6 +62,14 @@ function createTodoItem(todo, todoIndex) {
     const deleteButton = todoLI.querySelector(".delete-button");
     deleteButton.addEventListener("click", () => {
         deleteTodoItem(todoIndex);
+    })
+    const notifyButton = todoLI.querySelector(".notify-button");
+    notifyButton.addEventListener("click", () => {
+        reminderModal.showModal();
+    })
+    const closeModalButton = reminderForm.querySelector("#close-modal-button");
+    closeModalButton.addEventListener("click", () => {
+        reminderModal.close()
     })
     const checkbox = todoLI.querySelector("input");
     checkbox.addEventListener("change", () => {

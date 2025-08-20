@@ -21,6 +21,19 @@
             <!-- Aqui iran las tareas o todo's -->
         </ul>
     </div>
+
+    <dialog id="reminder-modal" closedby="any">
+        <h2>Establecer recordatorio</h2>
+        <form id="reminder-form">
+            <label for="reminder-time">
+                <i class="fa-solid fa-calendar-days"></i> Fecha y Hora del recordatorio:
+            </label>
+            <input type="datetime-local" name="reminder-time" id="reminder-time" required>
+            <button type="submit" id="save-modal-button">Guardar</button>
+            <button type="button" id="close-modal-button">Cancelar</button>
+        </form>
+    </dialog>
+
     <script src="./js/app.js" defer></script>
 </body>
 
