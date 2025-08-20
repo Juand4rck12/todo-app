@@ -1,3 +1,4 @@
+// ========== SELECCION ELEMENTOS DEL DOM ==========
 const todoForm = document.querySelector("form");
 const reminderForm = document.getElementById("reminder-form");
 const todoInput = document.getElementById("todo-input");
@@ -5,42 +6,25 @@ const todoListUL = document.getElementById("todo-list");
 const reminderModal = document.getElementById("reminder-modal");
 const closeModalButton = reminderForm.querySelector("#close-modal-button");
 
+
+// ========== VARIABLES GLOBALES ==========
 let currentTodoIndex = null;
 let allTodos = getTodos();
-updateTodoList();
 
-// reminderModal.addEventListener("close", () => {
-//     currentTodoIndex = null;
-//     console.log(currentTodoIndex);
-// });
 
-console.log("actual indextodo", currentTodoIndex);
-
-todoForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    addTodo();
-})
-
-closeModalButton.addEventListener("click", () => {
-    reminderModal.close()
-})
-
-function addTodo() {
-    const todoText = todoInput.value.trim();
-
-    if (todoText.length > 0) {
-        const todoObject = {
-            text: todoText,
-            completed: false,
-            reminder: null
-        }
-        allTodos.push(todoObject);
-        updateTodoList();
-        saveTodos();
-        todoInput.value = "";
-    }
+// ========== FUNCIONES UTILITARIAS (LocalStorage) ==========
+function saveTodos() {
+    const todosJson = JSON.stringify(allTodos);
+    localStorage.setItem("todos", todosJson);
 }
 
+function getTodos() {
+    const todos = localStorage.getItem("todos") || "[]";
+    return JSON.parse(todos);
+}
+
+
+// ========== FUNCIONES DE RENDERIZADO ==========
 function updateTodoList() {
     todoListUL.innerHTML = "";
     allTodos.forEach((todo, todoIndex) => {
@@ -94,22 +78,59 @@ function createTodoItem(todo, todoIndex) {
     return todoLI;
 }
 
+
+// ========== FUNCIONES DE LOGICA DE NEGOCIO ==========
+function addTodo() {
+    const todoText = todoInput.value.trim();
+
+    if (todoText.length > 0) {
+        const todoObject = {
+            text: todoText,
+            completed: false,
+            reminder: null
+        }
+        allTodos.push(todoObject);
+        updateTodoList();
+        saveTodos();
+        todoInput.value = "";
+    }
+}
+
 function deleteTodoItem(todoIndex) {
     allTodos = allTodos.filter((_, i) => i !== todoIndex);
     saveTodos();
     updateTodoList();
 }
 
-// Guardado en localStorage
-function saveTodos() {
-    const todosJson = JSON.stringify(allTodos);
-    localStorage.setItem("todos", todosJson);
+function scheduleNotification(todo) {
+    const reminderDate = new Date(todo.reminder);
+    currentTodoIndex = todo.todoIndex
+    const now = new Date();
+
+    const delay = reminderDate.getTime() - now.getTime();
+
+    // Si el delay ya paso no se hace nada
+    if (delay <= 0) {
+        return;
+    }
+
+    setTimeout(() => {
+        const notification = new Notification("¡Recordatorio de Tarea!", {
+            body: todo.text,
+            icon: "/assets/task-done-svgrepo-com.png"
+        });
+    }, delay);
 }
 
-function getTodos() {
-    const todos = localStorage.getItem("todos") || "[]";
-    return JSON.parse(todos);
-}
+// ========== EVENT LISTENERS PRINCIPALES ==========
+todoForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    addTodo();
+})
+
+closeModalButton.addEventListener("click", () => {
+    reminderModal.close()
+})
 
 reminderForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -149,22 +170,6 @@ reminderForm.addEventListener('submit', function (e) {
     // currentTodoIndex = null;
 });
 
-function scheduleNotification(todo) {
-    const reminderDate = new Date(todo.reminder);
-    currentTodoIndex = todo.todoIndex
-    const now = new Date();
 
-    const delay = reminderDate.getTime() - now.getTime();
-
-    // Si el delay ya paso no se hace nada
-    if (delay <= 0) {
-        return;
-    }
-
-    setTimeout(() => {
-        const notification = new Notification("¡Recordatorio de Tarea!", {
-            body: todo.text,
-            icon: "/assets/task-done-svgrepo-com.png"
-        });
-    }, delay);
-}
+// ========== INICIALIZACIÓN ==========
+updateTodoList();
